@@ -82,7 +82,7 @@ add(CircleHitbox()..collisionType = CollisionType.passive);
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
     if (other is PlayerComponent) {
-      gameRef.score += 10; 
+      gameRef.collectCoin(); 
       removeFromParent(); 
     }
   }

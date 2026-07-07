@@ -95,11 +95,14 @@ add(CircleHitbox(radius: size.x * 0.4, anchor: Anchor.center, position: size / 2
   }
 
 
-  void jump() {
-    if (current == PlayerState.running) {
-      current = PlayerState.jumping;
-      yVelocity = jumpForce;
+  bool jump() {
+    if (current != PlayerState.running) {
+      return false;
     }
+
+    current = PlayerState.jumping;
+    yVelocity = jumpForce;
+    return true;
   }
 
 

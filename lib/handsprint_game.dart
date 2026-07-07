@@ -15,6 +15,7 @@ import 'package:handsprint/game_componants/low_obstacles.dart';
 import 'package:handsprint/game_componants/player_component.dart';
 import 'package:handsprint/game_componants/coins.dart';
 import 'package:handsprint/game_componants/player_state.dart';
+import 'package:handsprint/services/game_audio_service.dart';
 
 class HandsprintGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {
@@ -31,7 +32,8 @@ class HandsprintGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    super.onLoad();
+    await super.onLoad();
+    await GameAudioService.preload();
 
 
 
@@ -120,6 +122,11 @@ class HandsprintGame extends FlameGame
     onReset?.call();
   }
 
+  void collectCoin() {
+    score += 10;
+    GameAudioService.playRandomCoinVoice();
+  }
+
   void gameOver() {
     pauseEngine();
     overlays.add('GameOver');
@@ -139,7 +146,9 @@ class HandsprintGame extends FlameGame
 
   void onHandSwipeUp() {
     if (!overlays.isActive('GameOver')) {
-      player.jump();
+      if (player.jump()) {
+        GameAudioService.playJumpVoice();
+      }
     }
   }
 
